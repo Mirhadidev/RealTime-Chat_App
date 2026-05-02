@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-"build": "npm install --prefix frontend && npm run build --prefix frontend && npm install --prefix backend",
-    "start": "npm run start --prefix backend"
+"build": "cd frontend && npm install --include=dev && npm run build && cd ../backend && npm install",
+  "start": "node backend/src/index.js"
   },
   "keywords": [],
   "author": "",
