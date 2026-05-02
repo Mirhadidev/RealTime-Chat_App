@@ -1,3 +1,5 @@
+import dns from "dns";
+dns.setServers(["8.8.8.8", "8.8.4.4"])
 import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
@@ -26,17 +28,18 @@ const __dirname=path.resolve();
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-if(process.env.NODE_ENV==="production"){
-   app.use(express.static(path.join(process.cwd(), "frontend/dist")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-app.use((req, res) => {
-  res.sendFile(path.join(process.cwd(), "frontend/dist/index.html"));
-});
+  app.use((req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../frontend","dist","index.html")
+    );
+  });
 }
 
-server.listen(PORT, ()=>{
-    connectDB();
-    console.log("server running on",PORT);
-    
-    
-})
+connectDB().then(() => {
+  server.listen(PORT, () => {
+    console.log("server running on", PORT);
+  });
+});
