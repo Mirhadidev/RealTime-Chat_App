@@ -9,6 +9,7 @@ import connectDB from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import { app, server } from "./lib/socket.js";
 import path from "path";
+import fs from "fs";
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ const rootDir = path.resolve(__dirname, "..");
 const frontendPath = path.join(rootDir, "frontend", "dist");
 
 // Always serve static files in production (or check for dist folder existence)
-const distFolderExists = require("fs").existsSync(frontendPath);
+const distFolderExists = fs.existsSync(frontendPath);
 
 if (distFolderExists) {
   app.use(express.static(frontendPath));
