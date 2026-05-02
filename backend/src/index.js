@@ -15,12 +15,12 @@ dotenv.config();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: process.env.NODE_ENV === "production"
+    ? process.env.RENDER_EXTERNAL_URL  // Render sets this automatically, no need to add it yourself
+    : "http://localhost:5173",
+  credentials: true,
+}));
 
 const PORT = process.env.PORT || 5001;
 const __dirname= path.resolve();

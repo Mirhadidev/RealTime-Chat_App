@@ -17,11 +17,12 @@
     "react-hot-toast": "^2.6.0",
     "react-router": "^7.14.2",
     "socket.io-client": "^4.8.3",
-    "zustand": "^5.0.12",
-    "vite": "^8.0.10",
-    "@vitejs/plugin-react": "^6.0.1"
+    "zustand": "^5.0.12"
+  
   },
   "devDependencies": {
+      "vite": "^8.0.10",
+    "@vitejs/plugin-react": "^6.0.1",
     "@eslint/js": "^10.0.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
