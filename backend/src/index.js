@@ -4,12 +4,12 @@ import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import cors from "cors";
+import path from "path";
 import dotenv from "dotenv";
 import connectDB from "./lib/db.js";
 import cookieParser from "cookie-parser";
 import { app, server } from "./lib/socket.js";
-import path from "path";
-import fs from "fs";
+
 
 dotenv.config();
 
@@ -23,26 +23,18 @@ app.use(
 );
 
 const PORT = process.env.PORT || 5001;
-const __dirname = path.resolve();
-
+const __dirname= path.resolve();
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// Determine the correct path to frontend dist folder
-// On Render, the app runs from the root directory where package.json is located
-const rootDir = path.resolve(__dirname, "..");
-const frontendPath = path.join(rootDir, "frontend", "dist");
+if(process.env.NODE_ENV==="production"){
+  app.use(express.static(path.join(__dirname,"../frontend/dist")));
 
-// Always serve static files in production (or check for dist folder existence)
-const distFolderExists = fs.existsSync(frontendPath);
-
-if (distFolderExists) {
-  app.use(express.static(frontendPath));
-
-  app.use((req, res) => {
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
+  app.get("*", (req,res)=>{
+    res.sendFile(path.join(__dirname,"../frontend","dist","index.html"))
+  })
 }
+
 
 connectDB().then(() => {
   server.listen(PORT, () => {
